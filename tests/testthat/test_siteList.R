@@ -40,7 +40,9 @@ context("convenience layer -> siteList()")
   expect_equal(colnames(sitesDataFrame)[[1]], "siteID", info = "correct column name")
   expect_equal(nrow(sitesDataFrame), 0, info = "number of unique sites")
 }
-
+#
+# KVP::siteList(sos, empty = TRUE) with empty sos ####
+#
 test_that("KVP::siteList(sos, empty = TRUE) returns an empty list of sites as one column data.frame if the SOS is empty", {
   webmockr::stub_registry_clear()
   webmockr::stub_request("get", uri = "http://example.com/sos-list-phenomena-empty?service=SOS&request=GetCapabilities&acceptVersions=2.0.0&sections=All&acceptFormats=text%2Fxml") %>%
@@ -82,7 +84,9 @@ test_that("KVP::siteList(sos, empty = TRUE) returns an empty list of sites as on
   expect_equal("vaisala-wxt520",      sitesDataFrame[ 3, 1])
   expect_equal("wwu-ws-kli-hsb",      sitesDataFrame[ 4, 1])
 }
-
+#
+# KVP::siteList(sos, empty = TRUE) ####
+#
 test_that("KVP::siteList(sos, empty = TRUE) returns the current list of sites as one column data.frame", {
   webmockr::stub_registry_clear()
   webmockr::stub_request("get", uri = "http://example.com/sos-list-phenomena?service=SOS&request=GetCapabilities&acceptVersions=2.0.0&sections=All&acceptFormats=text%2Fxml") %>%
@@ -121,7 +125,9 @@ test_that("KVP::siteList(sos, empty = TRUE) returns the current list of sites as
   expect_equal("vaisala-wxt520",      sitesDataFrame[ 2, 1])
   expect_equal("wwu-ws-kli-hsb",      sitesDataFrame[ 3, 1])
 }
-
+#
+# KVP::siteList(sos) ####
+#
 test_that("KVP::siteList(sos) or siteList(sos, empty = FALSE) returns a list of stations as one column data.frame that contain data", {
   webmockr::stub_registry_clear()
   webmockr::stub_request("get", uri = "http://example.com/sos-list-phenomena?service=SOS&request=GetCapabilities&acceptVersions=2.0.0&sections=All&acceptFormats=text%2Fxml") %>%
@@ -151,7 +157,9 @@ test_that("KVP::siteList(sos) or siteList(sos, empty = FALSE) returns a list of 
   sitesDataFrame <- siteList(sos)
   .checkSitesDataFrameWithSitesWithData(sitesDataFrame)
 })
-
+#
+# test KVP::siteList(sos) with empty GDA ####
+#
 test_that("KVP::siteList(sos) or siteList(sos, empty = FALSE) returns an empty list of stations as one column data.frame if GDA response is empty", {
   webmockr::stub_registry_clear()
   webmockr::stub_request("get", uri = "http://example.com/sos-list-phenomena?service=SOS&request=GetCapabilities&acceptVersions=2.0.0&sections=All&acceptFormats=text%2Fxml") %>%
@@ -196,6 +204,8 @@ test_that("KVP::siteList(sos) or siteList(sos, empty = FALSE) returns an empty l
   expect_equal("feature-6", sitesDataFrame[ 5, 1])
 }
 
+#
+# test KVP::siteList(sos, begin, end) ####
 #
 # ts1     : *   *   *  *     *
 # ts2     : +  + + 
@@ -256,6 +266,9 @@ test_that("KVP::siteList(sos, begin, end) or siteList(sos, empty = FALSE, begin,
   expect_equal("feature-7", sitesDataFrame[ 6, 1])
 }
 
+#
+# test KVP::siteList(sos, begin, end) with merge ####
+#
 test_that("KVP::siteList(sos, begin, end) or siteList(sos, empty = FALSE, begin, end) return a list of stations that provide data at least 'touching' the given time window", {
   webmockr::stub_registry_clear()
   webmockr::stub_request("get", uri = "http://example.com/sos-list-phenomena?service=SOS&request=GetCapabilities&acceptVersions=2.0.0&sections=All&acceptFormats=text%2Fxml") %>%
@@ -293,6 +306,9 @@ webmockr::disable("httr")
 
 context("siteList: integration tests\n")
 
+#
+# test KVP::siteList(sos) error ONLINE ####
+#
 test_that("siteList gives error if unsupported SOS version", {
   skip_on_cran()
 
@@ -304,6 +320,9 @@ test_that("siteList gives error if unsupported SOS version", {
     )
 })
 
+#
+# test KVP::siteList(sos) ONLINE ####
+#
 test_that("can retrieve site list from an online SOS 2.0.0 (KVP)", {
   skip_on_cran()
 
